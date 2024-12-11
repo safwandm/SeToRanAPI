@@ -2,22 +2,27 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Transaksi extends Model
 {
-    protected $table = 'transaksi';
+    use HasFactory;
 
+    protected $primaryKey = 'id_transaksi';
     protected $fillable = [
-        'id_motor',
-        'id_pelanggan',
-        'id_pembayaran',
-        'tanggal_mulai',
-        'tanggal_selesai',
-        'status_transaksi',
-        'durasi',
-        'nominal',
+        'id_motor', 'id_pelanggan', 'id_pembayaran', 
+        'tanggal_mulai', 'tanggal_selesai', 'status_transaksi', 
+        'durasi', 'nominal',
     ];
 
-    public $timestamps = false;
+    public function motor()
+    {
+        return $this->belongsTo(Motor::class, 'id_motor');
+    }
+
+    public function pelanggan()
+    {
+        return $this->belongsTo(Pelanggan::class, 'id_pelanggan');
+    }
 }

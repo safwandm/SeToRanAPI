@@ -1,21 +1,21 @@
 <?php
 
-use App\Models\Pengguna;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
-Route::get('/user', function (Request $request) {
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::middleware('auth:sanctum')->get('/protected', function () {
+    return response()->json(['message' => 'This is a protected route'], 200);
+});
 
-    Pengguna::create(attributes: [
-        'nama' => 'Jane Doe',
-        'email' => 'janedoe@example.com',
-        'username' => 'janedoe123',
-        'password' => bcrypt('securepassword'), // Always hash passwords
-        'tanggal_lahir' => '1990-01-01', // Example date
-        'nomor_telepon' => '081234567890',
-        'nomor_KTP' => '1234567890123456',
-        'alamat' => '456 Elm Street, City',
-    ]);
+use App\Http\Controllers\GenericCrudController;
+// ->where('model', 'motors|transaksis|ulasans')
 
-    return 'gaming';
+Route::prefix('{model}')->group(function () {
+    Route::get('/', [GenericCrudController::class, 'index']);
+    Route::get('/{id}', [GenericCrudController::class, 'show']);
+    Route::post('/', [GenericCrudController::class, 'store']);
+    Route::put('/{id}', [GenericCrudController::class, 'update']);
+    Route::delete('/{id}', [GenericCrudController::class, 'destroy']);
 });

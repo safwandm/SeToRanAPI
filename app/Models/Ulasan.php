@@ -9,7 +9,6 @@ class Ulasan extends Model
 {
     use HasFactory;
 
-    protected $table = 'ulasan';
     protected $primaryKey = 'id_ulasan';
     protected $fillable = [
         'id_motor', 'id_pelanggan', 'rating', 'komentar', 'tanggal_ulasan',

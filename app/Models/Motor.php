@@ -9,7 +9,6 @@ class Motor extends Model
 {
     use HasFactory;
 
-    protected $table = 'motor';
     protected $primaryKey = 'id_motor';
     protected $fillable = [
         'plat_nomor', 'id_mitra', 'nomor_STNK', 'nomor_BPKB',

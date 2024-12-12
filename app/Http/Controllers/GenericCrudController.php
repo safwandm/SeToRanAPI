@@ -13,6 +13,7 @@ class GenericCrudController extends Controller
     // Define the allowed models here
     protected $allowedModels = [
         'motors' => \App\Models\Motor::class,
+        'vouchers' => \App\Models\Voucher::class,
     ];
 
     public function __construct(Request $request)

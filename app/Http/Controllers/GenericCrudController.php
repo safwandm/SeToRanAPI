@@ -41,9 +41,9 @@ class GenericCrudController extends Controller
         return response()->json($this->model->all());
     }
 
-    public function show($id)
+    public function show(Request $request)
     {
-        $record = $this->model->find($id);
+        $record = $this->model->find((int)$request->route('id'));
         if (!$record) {
             return response()->json(['error' => 'Record not found.'], 404);
         }

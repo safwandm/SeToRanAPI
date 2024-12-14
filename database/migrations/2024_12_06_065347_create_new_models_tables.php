@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id('id_pengguna');
             $table->string('nama');
             $table->string('email')->unique();
-            $table->string('username')->unique();
             $table->string('password');
-            $table->date('tanggal_lahir');
+            $table->date('tanggal_lahir')->nullable();
             $table->string('nomor_telepon')->nullable();
             $table->integer('umur')->nullable();
             $table->string('nomor_KTP')->nullable();

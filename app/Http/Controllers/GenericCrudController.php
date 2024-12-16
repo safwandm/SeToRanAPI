@@ -65,9 +65,9 @@ class GenericCrudController extends Controller
         return response()->json($record, 201);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $record = $this->model->find($id);
+        $record = $this->model->find((int)$request->route('id'));
 
         if (!$record) {
             return response()->json(['error' => 'Resource not found'], 404);

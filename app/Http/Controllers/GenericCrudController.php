@@ -40,7 +40,7 @@ class GenericCrudController extends Controller
         return response()->json($this->model->all());
     }
 
-    public function show($id)
+    public function show($motors, $id)
     {
         $record = $this->model->find($id);
         if (!$record) {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Pengguna;
+use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -33,6 +34,9 @@ class AuthController extends Controller
         ]);
 
         // bisa tambah register sebagai apa, pelanggan atau mitra
+        $pelanggan = Pelanggan::create([
+            'id_pengguna' => $user->id_pengguna,
+        ]);
 
         // Return a success response
         return response()->json(['message' => 'User registered successfully!', 'user' => $user], 201);

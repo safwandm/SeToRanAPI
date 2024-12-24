@@ -27,7 +27,7 @@ return new class extends Migration
         Schema::create('pelanggans', function (Blueprint $table) {
             $table->id('id_pelanggan');
             $table->foreignId('id_pengguna')->references('id_pengguna')->on('penggunas');
-            $table->string('nomor_SIM');
+            $table->string('nomor_SIM')->nullable();
             $table->timestamps();
         });
         

@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/voucher/filtered', [VoucherController::
 Route::middleware('auth:sanctum')->prefix('pelanggan')->group(function () {
     Route::get('/', [PelangganController::class, 'index']);
     Route::get('/{id}', [PelangganController::class, 'show']);
+    Route::delete('/{id}', [PelangganController::class, 'destroy']); //idpelanggan
 });
 
 use App\Http\Controllers\GenericCrudController;

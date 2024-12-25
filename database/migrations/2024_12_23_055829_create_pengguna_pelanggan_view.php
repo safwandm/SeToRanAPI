@@ -22,6 +22,7 @@ return new class extends Migration
                 penggunas.tanggal_lahir,
                 penggunas.umur,
                 penggunas.nomor_KTP,
+                penggunas.nomor_telepon,
                 penggunas.alamat
             FROM pelanggans
             JOIN penggunas ON pelanggans.id_pengguna = penggunas.id_pengguna;

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ImageController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\PelangganController;
@@ -18,6 +19,11 @@ Route::middleware('auth:sanctum')->get('/current-user', function (Request $reque
 });
 
 Route::middleware('auth:sanctum')->get('/voucher/filtered', [VoucherController::class, 'filtered']);
+
+Route::prefix('image')->group(function () {
+    Route::post('/', [ImageController::class, 'store']);
+    Route::get('/{id}', [ImageController::class, 'show']);
+});
 
 Route::middleware('auth:sanctum')->prefix('pelanggan')->group(function () {
     Route::get('/', [PelangganController::class, 'index']);

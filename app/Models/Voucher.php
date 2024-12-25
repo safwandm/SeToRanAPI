@@ -11,6 +11,11 @@ class Voucher extends Model
 
     protected $primaryKey = 'id_voucher';
     protected $fillable = [
-        'nama_voucher', 'status_voucher', 'tanggal_mulai', 'tanggal_akhir'
+        'nama_voucher', 
+        'status_voucher', 
+        'tanggal_mulai', 
+        'tanggal_akhir', 
+        'persen_voucher', 
+        'kode_voucher'    
     ];
 }

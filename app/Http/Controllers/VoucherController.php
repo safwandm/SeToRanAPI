@@ -37,4 +37,13 @@ class VoucherController extends Controller
         // Return the results as JSON
         return response()->json($vouchers);
     }
+
+    public function get_code(Request $request) 
+    {
+        $voucher = Voucher::where('kode_voucher', $request->route("kode_voucher"))->first();
+        if (!$voucher) {
+            return response()->json(['error' => 'Voucher not found.'], 404);
+        }
+        return response()->json($voucher);
+    }
 }

@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             PelangganSeeder::class,
             MitraSeeder::class,
             MotorSeeder::class,
+            TransaksiSeeder::class,
         ]);
     }
 }

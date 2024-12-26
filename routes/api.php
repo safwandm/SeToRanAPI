@@ -18,9 +18,12 @@ Route::middleware('auth:sanctum')->get('/current-user', function (Request $reque
     return response()->json(['user' => $request->user()], 200);
 });
 
-Route::middleware('auth:sanctum')->get('/voucher/filtered', [VoucherController::class, 'filtered']);
+Route::prefix('voucher')->group(function () {
+    Route::get('/filtered', [VoucherController::class, 'filtered']);
+    Route::get('/kode/{kode_voucher}', [VoucherController::class, 'get_code']);
+});
 
-Route::prefix('image')->group(function () {
+Route::middleware('auth:sanctum')->prefix('image')->group(function () {
     Route::post('/', [ImageController::class, 'store']);
     Route::get('/{id}', [ImageController::class, 'show']);
 });

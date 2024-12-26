@@ -6,6 +6,7 @@ use App\Http\Controllers\ImageController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\TransaksiController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/register-admin', [AuthController::class, 'registerAdmin']);
@@ -34,14 +35,25 @@ Route::middleware('auth:sanctum')->prefix('pelanggan')->group(function () {
     Route::delete('/{id}', [PelangganController::class, 'destroy']); //idpelanggan
 });
 
+Route::middleware('auth:sanctum')->prefix('transaksi')->group(function () {
+    Route::get('/', [TransaksiController::class, 'index']);
+    Route::get('/aktif', [TransaksiController::class, 'showAktif']);
+    Route::get('/{id}', [TransaksiController::class, 'show']);
+    Route::get('/pelanggan/{id}', [TransaksiController::class, 'showByPelanggan']);
+    Route::get('/mitra/{id}', [TransaksiController::class, 'showByMitra']);
+    Route::get('/motor/{id}', [TransaksiController::class, 'showByMotor']);
+    Route::post('/', [TransaksiController::class, 'store']);
+    Route::put('/{id}', [TransaksiController::class, 'update']);
+});
+
 use App\Http\Controllers\GenericCrudController;
 
 // ->where('model', 'motors|transaksis|ulasans')
 
-Route::middleware('auth:sanctum')->prefix('{model}')->group(function () {
-    Route::get('/', [GenericCrudController::class, 'index']);
-    Route::get('/{id}', [GenericCrudController::class, 'show']);
-    Route::post('/', [GenericCrudController::class, 'store']);
-    Route::put('/{id}', [GenericCrudController::class, 'update']);
-    Route::delete('/{id}', [GenericCrudController::class, 'destroy']);
-});
+// Route::middleware('auth:sanctum')->prefix('{model}')->group(function () {
+//     Route::get('/', [GenericCrudController::class, 'index']);
+//     Route::get('/{id}', [GenericCrudController::class, 'show']);
+//     Route::post('/', [GenericCrudController::class, 'store']);
+//     Route::put('/{id}', [GenericCrudController::class, 'update']);
+//     Route::delete('/{id}', [GenericCrudController::class, 'destroy']);
+// });

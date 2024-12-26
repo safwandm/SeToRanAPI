@@ -30,7 +30,7 @@ class TransaksiSeeder extends Seeder
                 'id_motor' => $id_motor,
                 'tanggal_mulai' => $tanggal_sewa,
                 'tanggal_selesai' => $tanggal_kembali,
-                'status_transaksi' => 'Berlangsung',
+                'status_transaksi' => 'berlangsung',
                 'durasi' => $tanggal_sewa->diff($tanggal_kembali)->days,
                 'nominal' => Motor::find($id_motor)->harga_harian * $tanggal_sewa->diff($tanggal_kembali)->days, // Updated line
             ]);

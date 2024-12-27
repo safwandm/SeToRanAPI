@@ -6,8 +6,10 @@ use App\Http\Controllers\ImageController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\MitraController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\GenericCrudController;
+
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/register-admin', [AuthController::class, 'registerAdmin']);
@@ -15,6 +17,8 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::middleware('auth:sanctum')->get('/protected', function () {
     return response()->json(['message' => 'This is a protected route'], 200);
 });
+
+Route::get('/mitras', [MitraController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/current-user', function (Request $request) {
     return response()->json(['user' => $request->user()], 200);

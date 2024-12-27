@@ -50,32 +50,36 @@ class VoucherController extends Controller
 
     public function filtered(Request $request)
     {
-        // Retrieve query parameters
         $search = $request->query('search');
-        $broken = $request->query('status');
+        $status = $request->query('status');
+        $start = $request->query('start'); // Start date
+        $end = $request->query('end');   
 
-        // Initialize query builder
         $query = Voucher::query();
 
-        // Apply search filter (check if search value exists in any field as a substring)
         if (!empty($search)) {
             $query->where(function ($q) use ($search) {
-                $columns = (new Voucher)->getFillable(); // Dynamically fetch fillable columns from the model.
+                $columns = (new Voucher)->getFillable();
                 foreach ($columns as $column) {
                     $q->orWhere($column, 'LIKE', "%$search%");
                 }
             });
         }
 
-        // Apply broken filter (check for enum column "broken")
-        if (!is_null($broken)) {
-            $query->where('status_voucher', $broken);
+        if (!is_null($status)) {
+            $query->where('status_voucher', $status);
         }
 
-        // Get the results
+        if (!empty($start)) {
+            $query->where('tanggal_mulai', '<=', $start);
+        }
+    
+        if (!empty($end)) {
+            $query->where('tanggal_akhir', '>=', $end);
+        }
+
         $vouchers = $query->get();
 
-        // Return the results as JSON
         return response()->json($vouchers);
     }
 

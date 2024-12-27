@@ -86,9 +86,9 @@ class GenericCrudController extends Controller
         return response()->json($record);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $record = $this->model->find($id);
+        $record = $this->model->find((int)$request->route('id'));
         if (!$record) {
             return response()->json(['error' => 'Record not found.'], 404);
         }

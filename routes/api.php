@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\MitraController;
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\GenericCrudController;
+
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/register-admin', [AuthController::class, 'registerAdmin']);
@@ -21,9 +24,11 @@ Route::middleware('auth:sanctum')->get('/current-user', function (Request $reque
     return response()->json(['user' => $request->user()], 200);
 });
 
-Route::prefix('voucher')->group(function () {
+Route::middleware('auth:sanctum')->prefix('voucher')->group(function () {
     Route::get('/filtered', [VoucherController::class, 'filtered']);
     Route::get('/kode/{kode_voucher}', [VoucherController::class, 'get_code']);
+    Route::post('/', [VoucherController::class, 'store']);
+    Route::put('/{id}', [VoucherController::class, 'update']);
 });
 
 Route::middleware('auth:sanctum')->prefix('image')->group(function () {
@@ -37,11 +42,20 @@ Route::middleware('auth:sanctum')->prefix('pelanggan')->group(function () {
     Route::delete('/{id}', [PelangganController::class, 'destroy']); //idpelanggan
 });
 
-use App\Http\Controllers\GenericCrudController;
+Route::middleware('auth:sanctum')->prefix('transaksi')->group(function () {
+    Route::get('/', [TransaksiController::class, 'index']);
+    Route::get('/aktif', [TransaksiController::class, 'showAktif']);
+    Route::get('/{id}', [TransaksiController::class, 'show']);
+    Route::get('/pelanggan/{id}', [TransaksiController::class, 'showByPelanggan']);
+    Route::get('/mitra/{id}', [TransaksiController::class, 'showByMitra']);
+    Route::get('/motor/{id}', [TransaksiController::class, 'showByMotor']);
+    Route::post('/', [TransaksiController::class, 'store']);
+    Route::put('/{id}', [TransaksiController::class, 'update']);
+});
 
 // ->where('model', 'motors|transaksis|ulasans')
 
-Route::middleware('auth:sanctum')->prefix('{model}')->group(function () {
+Route::middleware('auth:sanctum')->prefix('/generic/{model}')->group(function () {
     Route::get('/', [GenericCrudController::class, 'index']);
     Route::get('/{id}', [GenericCrudController::class, 'show']);
     Route::post('/', [GenericCrudController::class, 'store']);

@@ -59,7 +59,7 @@ return new class extends Migration
             $table->foreignId('id_pelanggan')->references('id_pelanggan')->on('pelanggans');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
-            $table->string('status_transaksi');
+            $table->string('status_transaksi'); // ["dibuat", "berlangsung", "batal", "selesai"]
             $table->integer('durasi');
             $table->decimal('nominal', 10, 2);
             $table->timestamps();
@@ -80,6 +80,7 @@ return new class extends Migration
             $table->foreignId('id_transaksi')->references('id_transaksi')->on('transaksis');
             $table->string('metode');
             $table->decimal('nominal', 10, 2);
+            $table->string('status_pembayaran'); // ["dibuat", "berlangsung", "batal", "selesai"]
             $table->timestamp('tanggal_bayar');
             $table->timestamps();
         });

@@ -7,6 +7,47 @@ use App\Models\Voucher;
 
 class VoucherController extends Controller
 {
+    public function store(Request $request)
+    {
+        $request->validate([
+            'kode_voucher' => [
+                'required',
+                function ($attribute, $value, $fail) use ($request) {
+                    $existingVoucher = Voucher::where('kode_voucher', $value)
+                        ->where('id_voucher', '!=', $request->id_voucher)
+                        ->first();
+                    
+                    if ($existingVoucher) {
+                        $fail('Kode voucher sudah digunakan');
+                    }
+                },
+            ],
+            'tanggal_mulai' => 'required|date',
+            'nama_voucher' => 'required|string',
+            'persen_voucher' => 'required|numeric|min:1|max:100',
+        ]);
+
+        $voucher = Voucher::create($request->all());
+
+        return response()->json($voucher, 201);
+    }
+
+    public function update(Request $request)
+    {
+        $voucher = Voucher::find($request->route('id'));
+
+        if (!$voucher) {
+            return response()->json(['message' => 'Voucher not found'], 404);
+        }
+
+        $voucher->update($request->all());
+
+        return response()->json([
+            'message' => 'Voucher updated successfully',
+            'voucher' => $voucher,
+        ]);
+    }
+
     public function filtered(Request $request)
     {
         // Retrieve query parameters

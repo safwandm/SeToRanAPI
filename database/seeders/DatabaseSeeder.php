@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             MitraSeeder::class,
             MotorSeeder::class,
             TransaksiSeeder::class,
+            VoucherSeeder::class,
         ]);
     }
 }

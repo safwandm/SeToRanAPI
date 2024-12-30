@@ -53,6 +53,14 @@ Route::middleware('auth:sanctum')->prefix('transaksi')->group(function () {
     Route::put('/{id}', [TransaksiController::class, 'update']);
 });
 
+Route::middleware('auth:sanctum')->prefix('diskon')->group(function () {
+    Route::get('/', [DiskonController::class, 'index']);
+    Route::get('/{id}', [DiskonController::class, 'show']);
+    Route::post('/', [DiskonController::class, 'store']);
+    Route::put('/{id}', [DiskonController::class, 'update']);
+    Route::delete('/{id}', [DiskonController::class, 'destroy']);
+    
+});
 // ->where('model', 'motors|transaksis|ulasans')
 
 Route::middleware('auth:sanctum')->prefix('/generic/{model}')->group(function () {
@@ -62,3 +70,4 @@ Route::middleware('auth:sanctum')->prefix('/generic/{model}')->group(function ()
     Route::put('/{id}', [GenericCrudController::class, 'update']);
     Route::delete('/{id}', [GenericCrudController::class, 'destroy']);
 });
+

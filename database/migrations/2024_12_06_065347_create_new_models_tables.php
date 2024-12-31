@@ -11,18 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vouchers', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-
         Schema::create('penggunas', function (Blueprint $table) {
             $table->id('id_pengguna');
             $table->string('nama');
             $table->string('email')->unique();
-            $table->string('username')->unique();
             $table->string('password');
-            $table->date('tanggal_lahir');
+            $table->date('tanggal_lahir')->nullable();
             $table->string('nomor_telepon')->nullable();
             $table->integer('umur')->nullable();
             $table->string('nomor_KTP')->nullable();
@@ -33,7 +27,7 @@ return new class extends Migration
         Schema::create('pelanggans', function (Blueprint $table) {
             $table->id('id_pelanggan');
             $table->foreignId('id_pengguna')->references('id_pengguna')->on('penggunas');
-            $table->string('nomor_SIM');
+            $table->string('nomor_SIM')->nullable();
             $table->timestamps();
         });
         
@@ -65,7 +59,7 @@ return new class extends Migration
             $table->foreignId('id_pelanggan')->references('id_pelanggan')->on('pelanggans');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
-            $table->string('status_transaksi');
+            $table->string('status_transaksi'); // ["dibuat", "berlangsung", "batal", "selesai"]
             $table->integer('durasi');
             $table->decimal('nominal', 10, 2);
             $table->timestamps();
@@ -86,6 +80,7 @@ return new class extends Migration
             $table->foreignId('id_transaksi')->references('id_transaksi')->on('transaksis');
             $table->string('metode');
             $table->decimal('nominal', 10, 2);
+            $table->string('status_pembayaran'); // ["dibuat", "berlangsung", "batal", "selesai"]
             $table->timestamp('tanggal_bayar');
             $table->timestamps();
         });
@@ -102,6 +97,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vouchers');
+        
     }
 };

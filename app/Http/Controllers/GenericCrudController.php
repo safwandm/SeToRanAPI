@@ -13,6 +13,7 @@ class GenericCrudController extends Controller
     // Define the allowed models here
     protected $allowedModels = [
         'motors' => \App\Models\Motor::class,
+        'vouchers' => \App\Models\Voucher::class,
     ];
 
     public function __construct(Request $request)
@@ -40,9 +41,9 @@ class GenericCrudController extends Controller
         return response()->json($this->model->all());
     }
 
-    public function show($motors, $id)
+    public function show(Request $request)
     {
-        $record = $this->model->find($id);
+        $record = $this->model->find((int)$request->route('id'));
         if (!$record) {
             return response()->json(['error' => 'Record not found.'], 404);
         }
@@ -64,9 +65,9 @@ class GenericCrudController extends Controller
         return response()->json($record, 201);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $record = $this->model->find($id);
+        $record = $this->model->find((int)$request->route('id'));
 
         if (!$record) {
             return response()->json(['error' => 'Resource not found'], 404);
@@ -85,9 +86,9 @@ class GenericCrudController extends Controller
         return response()->json($record);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $record = $this->model->find($id);
+        $record = $this->model->find((int)$request->route('id'));
         if (!$record) {
             return response()->json(['error' => 'Record not found.'], 404);
         }

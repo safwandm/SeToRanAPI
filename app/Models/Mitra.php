@@ -17,4 +17,10 @@ class Mitra extends Model
     {
         return $this->belongsTo(Pengguna::class, 'id_pengguna');
     }
+
+    public function motors()
+    {
+        return $this->hasMany(Motor::class);  
+    }
+
 }

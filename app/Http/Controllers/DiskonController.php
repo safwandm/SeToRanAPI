@@ -13,20 +13,9 @@ class DiskonController extends Controller
     public function index()
     {
         $diskons = Diskon::all();
-        return view('diskons.index', compact('diskons'));
+        return response()->json(['data' => $diskons], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('diskons.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -38,23 +27,19 @@ class DiskonController extends Controller
 
         Diskon::create($validated);
 
-        return redirect()->route('diskons.index')->with('success', 'Diskon berhasil ditambahkan!');
+        return response()->json(['success' => 'Diskon berhasil ditambahkan!']);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Diskon $diskon)
+    public function show($id)
     {
-        return view('diskons.show', compact('diskon'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Diskon $diskon)
-    {
-        return view('diskons.edit', compact('diskon'));
+        $diskon = Diskon::find($id);
+        if (!$diskon) {
+            return response()->json(['message' => 'Diskon not found'], 404);
+        }
+        return response()->json(['data' => $diskon], 200);
     }
 
     /**
@@ -71,7 +56,7 @@ class DiskonController extends Controller
 
         $diskon->update($validated);
 
-        return redirect()->route('diskons.index')->with('success', 'Diskon berhasil diperbarui!');
+        return response()->json(['success' => 'Diskon berhasil diperbarui!']);
     }
 
     /**
@@ -81,6 +66,6 @@ class DiskonController extends Controller
     {
         $diskon->delete();
 
-        return redirect()->route('diskons.index')->with('success', 'Diskon berhasil dihapus!');
+        return response()->json(['success' => 'Diskon berhasil dihapus!']);
     }
 }

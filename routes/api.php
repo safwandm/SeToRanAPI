@@ -9,6 +9,7 @@ use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\GenericCrudController;
+use App\Http\Controllers\DiskonController;
 
 
 Route::post('/register', [AuthController::class, 'register']);

@@ -19,6 +19,7 @@ Route::middleware('auth:sanctum')->get('/protected', function () {
 });
 
 Route::get('/mitras', [MitraController::class, 'index']);
+Route::get('/mitras-motor', [MitraController::class, 'mitraMotor']);
 
 Route::middleware('auth:sanctum')->get('/current-user', function (Request $request) {
     return response()->json(['user' => $request->user()], 200);

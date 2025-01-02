@@ -44,9 +44,10 @@ class MotorController extends Controller
     
                 return !$overlappingReservation;
             });
+            $motors = $availableMotors;
         }
 
         // Return the response
-        return response()->json($availableMotors->values());
+        return response()->json($motors->values());
     }
 }

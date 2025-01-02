@@ -19,6 +19,8 @@ class MotorSeeder extends Seeder
         // Get all mitra IDs
         $mitraIds = DB::table('mitras')->pluck('id_mitra');
 
+        $possiblePrices = range(50000, 100000, 5000);
+
         // Create motor records for some of the mitras
         foreach ($mitraIds as $mitraId) {
             // Randomly skip some mitras (70% chance to create a motor)
@@ -34,7 +36,7 @@ class MotorSeeder extends Seeder
                     'tahun' => $faker->numberBetween(2010, 2021),
                     'transmisi' => $faker->randomElement(['Manual', 'Matic']),
                     'status_motor' => $faker->randomElement(['Tersedia', 'Disewa', 'Dipesan', 'Dalam Perbaikan', 'Tidak Tersedia']),
-                    'harga_harian' => $faker->numberBetween(50000, 200000),
+                    'harga_harian' => $faker->randomElement($possiblePrices),
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);

@@ -81,7 +81,7 @@ return new class extends Migration
             $table->string('metode'); // ["transfer", "tunai"]
             $table->decimal('nominal', 10, 2);
             $table->string('status_pembayaran'); // ["belum lunas","batal", "lunas"]
-            $table->timestamp('tanggal_bayar');
+            $table->timestamp('tanggal_bayar')->nullable();
             $table->timestamps();
         });
 

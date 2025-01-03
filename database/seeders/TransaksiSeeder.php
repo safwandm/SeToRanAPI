@@ -45,6 +45,7 @@ class TransaksiSeeder extends Seeder
                 'metode' => $faker->randomElement(['cash', 'transfer', 'virtual account']), 
                 'status_pembayaran' => 'lunas',
                 'nominal' => $motor->harga_harian * $durasi,
+                'tanggal_bayar' => $tanggal_sewa,
                 'created_at' => $tanggal_sewa,
                 'updated_at' => $tanggal_sewa,
             ]);

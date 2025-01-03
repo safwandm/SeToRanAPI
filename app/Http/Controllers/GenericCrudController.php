@@ -14,7 +14,8 @@ class GenericCrudController extends Controller
     protected $allowedModels = [
         'motors' => \App\Models\Motor::class,
         'vouchers' => \App\Models\Voucher::class,
-        'notifs' => \App\Models\Notifikasi::class
+        'notifs' => \App\Models\Notifikasi::class,
+        'penggunas' => \App\Models\Pengguna::class,
     ];
 
     public function __construct(Request $request)

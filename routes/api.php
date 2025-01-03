@@ -40,6 +40,8 @@ Route::middleware('auth:sanctum')->prefix('image')->group(function () {
 
 Route::middleware('auth:sanctum')->prefix('notif')->group(function () {
     Route::get('/read/{id}', [NotifikasiController::class, 'updateIsRead']);
+    Route::get('/register', [NotifikasiController::class, 'registerDevice']);
+    Route::get('/send', [NotifikasiController::class, 'sendNotif']);
 });
 
 Route::middleware('auth:sanctum')->prefix('pelanggan')->group(function () {

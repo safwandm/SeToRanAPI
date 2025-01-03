@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\Notification;
 
 class Pengguna extends Model
 {
@@ -18,8 +20,13 @@ class Pengguna extends Model
 
     public function sendNotif($judul, $deskripsi, $navigasi, $dataNavigasi)
     {
+        Pengguna::sendNotifStatic($this->id_pengguna, $judul, $deskripsi, $navigasi, $dataNavigasi);
+    }
+
+     public static function sendNotifStatic($idPengguna, $judul, $deskripsi, $navigasi, $dataNavigasi)
+    {
         $notif = new Notifikasi;
-        $notif->id_pengguna = $this->id_pengguna;
+        $notif->id_pengguna = $idPengguna;
         $notif->judul = $judul;
         $notif->deskripsi = $deskripsi;
         $notif->navigasi = $navigasi;
@@ -30,5 +37,20 @@ class Pengguna extends Model
         $notif->save();
 
         // send firebase notif, perlu send notif id juga buat update is_read
-    }   
+
+        $deviceTokens = DeviceToken::where('id_pengguna', $idPengguna)->pluck('device_token');
+
+        $messaging = app('firebase.messaging');
+        foreach ($deviceTokens as $token) {
+            $message = CloudMessage::new()
+                ->withNotification(Notification::create($judul, $deskripsi))
+                ->withData(['navigasi' => $navigasi, 'data_navigasi' => $dataNavigasi])
+                ->toToken($token)
+                // ->toTopic('...')
+                // ->toCondition('...')
+            ;
+            
+            $messaging->send($message);
+        }
+    }
 }

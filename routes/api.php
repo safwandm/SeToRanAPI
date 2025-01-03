@@ -10,6 +10,7 @@ use App\Http\Controllers\MitraController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\GenericCrudController;
 use App\Http\Controllers\MotorController;
+use App\Http\Controllers\NotifikasiController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/register-admin', [AuthController::class, 'registerAdmin']);
@@ -35,6 +36,10 @@ Route::middleware('auth:sanctum')->prefix('voucher')->group(function () {
 Route::middleware('auth:sanctum')->prefix('image')->group(function () {
     Route::post('/', [ImageController::class, 'store']);
     Route::get('/{id}', [ImageController::class, 'show']);
+});
+
+Route::middleware('auth:sanctum')->prefix('notif')->group(function () {
+    Route::get('/read/{id}', [NotifikasiController::class, 'updateIsRead']);
 });
 
 Route::middleware('auth:sanctum')->prefix('pelanggan')->group(function () {

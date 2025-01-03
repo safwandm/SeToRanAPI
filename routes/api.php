@@ -9,7 +9,7 @@ use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\GenericCrudController;
-
+use App\Http\Controllers\MotorController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/register-admin', [AuthController::class, 'registerAdmin']);
@@ -41,6 +41,10 @@ Route::middleware('auth:sanctum')->prefix('pelanggan')->group(function () {
     Route::get('/', [PelangganController::class, 'index']);
     Route::get('/{id}', [PelangganController::class, 'show']);
     Route::delete('/{id}', [PelangganController::class, 'destroy']); //idpelanggan
+});
+
+Route::middleware('auth:sanctum')->prefix('motor')->group(function () {
+    Route::post('/filtered', [MotorController::class, 'filtered']);
 });
 
 Route::middleware('auth:sanctum')->prefix('transaksi')->group(function () {

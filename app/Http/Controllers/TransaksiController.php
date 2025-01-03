@@ -23,12 +23,19 @@ class TransaksiController extends Controller
         return response()->json(['data' => $transaksi], 200);
     }
 
-    public function showByPelanggan($id)
+    public function showByPelanggan(Request $request)
     {
-        $transaksis = DB::table('transaksi_motor_pelanggan_view')
-            ->where('id_pelanggan', $id)
-            ->get();
-        return response()->json(['data' => $transaksis], 200);
+        $transaksis;
+        if ($request->query('expand' == true)) {
+            $transaksis = DB::table('transaksi_motor_pelanggan_view')
+                ->where('id_pelanggan', $request->route('id'))
+                ->get();
+        } else {
+            $transaksis = DB::table('transaksis')
+                ->where('id_pelanggan', $request->route('id'))
+                ->get();
+        }
+        return response()->json($transaksis);
     }
 
     public function showByMitra($id)

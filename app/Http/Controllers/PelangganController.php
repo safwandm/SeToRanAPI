@@ -18,8 +18,12 @@ class PelangganController extends Controller
 
     public function show(Request $request)
     {
-        // $pelanggan = DB::select("SELECT * FROM pengguna_pelanggan_view where id_pelanggan =" . $request->route('id'));
-        $pelanggan = DB::table('pengguna_pelanggan_view')->where('id_pelanggan', $request->route('id'))->first();
+        if ($request->query('expand') == true) {
+            $pelanggan = DB::table('pengguna_pelanggan_view')->where('id_pelanggan', $request->route('id'))->first();
+        } else {
+            $pelanggan = DB::table('pelanggans')->where('id_pengguna', $request->route('id'))->first();
+        }
+
         if (!$pelanggan) {
             return response()->json(['error' => 'Record not found.'], 404);
         }

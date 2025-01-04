@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
+
+use function Laravel\Prompts\text;
 
 class Pengguna extends Model
 {
@@ -38,19 +41,25 @@ class Pengguna extends Model
 
         // send firebase notif, perlu send notif id juga buat update is_read
 
-        $deviceTokens = DeviceToken::where('id_pengguna', $idPengguna)->pluck('device_token');
+        try {
+            $deviceTokens = DeviceToken::where('id_pengguna', $idPengguna)->pluck('device_token');
 
-        $messaging = app('firebase.messaging');
-        foreach ($deviceTokens as $token) {
-            $message = CloudMessage::new()
-                ->withNotification(Notification::create($judul, $deskripsi))
-                ->withData(['navigasi' => $navigasi, 'data_navigasi' => $dataNavigasi])
-                ->toToken($token)
-                // ->toTopic('...')
-                // ->toCondition('...')
-            ;
-            
-            $messaging->send($message);
+            $messaging = app('firebase.messaging');
+            foreach ($deviceTokens as $token) {
+                $message = CloudMessage::new()
+                    ->withNotification(Notification::create($judul, $deskripsi))
+                    ->withData(['navigasi' => $navigasi, 'data_navigasi' => $dataNavigasi])
+                    ->toToken($token)
+                    // ->toTopic('...')
+                    // ->toCondition('...')
+                ;
+                
+                $messaging->send($message);
+            }
+        } catch (Exception $e) {
+            error_log("error: " . $e->getMessage());
+            error_log("gagal kirim push notif firebase, apakah sudah setup FIREBASE_CREDENTIALS di .env?");
         }
+
     }
 }

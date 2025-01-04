@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('id_pengguna')->references('id_pengguna')->on('penggunas');
             $table->string('judul');
             $table->text('deskripsi');
-            $table->enum('navigasi', ['', 'transaksi', 'editProfile'])->default('');
+            $table->enum('navigasi', ['', 'transaksi', 'editProfile'])->default('')->nullable();
             $table->json('data_navigasi')->nullable();
             $table->boolean('is_sent')->default(false);
             $table->boolean('is_read')->default(false);

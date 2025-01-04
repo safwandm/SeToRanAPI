@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Notifikasi;
 use App\Models\Pengguna;
 use App\Models\Pelanggan;
 use Illuminate\Http\Request;
@@ -37,6 +38,17 @@ class AuthController extends Controller
         $pelanggan = Pelanggan::create([
             'id_pengguna' => $user->id_pengguna,
         ]);
+
+        // bisa pake fungsi yang udah ada mungkin biar ke push notification juga kalau mau
+        $notif = new Notifikasi();
+        $notif->id_pengguna = $user->id_pengguna;
+        $notif->judul = "Lengkapi data";
+        $notif->deskripsi = "Silahkan selesaikan proses registrasi dengan melengkapi data-data anda di halaman edit profile";
+        $notif->navigasi = "editProfile";
+        $notif->data_navigasi = [];
+        $notif->is_read = false;
+
+        $notif->save();
 
         // Return a success response
         return response()->json(['message' => 'User registered successfully!', 'user' => $user], 201);

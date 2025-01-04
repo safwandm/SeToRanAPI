@@ -11,6 +11,7 @@ use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\GenericCrudController;
 use App\Http\Controllers\MotorController;
 use App\Http\Controllers\NotifikasiController;
+use App\Http\Controllers\UlasanController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/register-admin', [AuthController::class, 'registerAdmin']);
@@ -40,8 +41,12 @@ Route::middleware('auth:sanctum')->prefix('image')->group(function () {
 
 Route::middleware('auth:sanctum')->prefix('notif')->group(function () {
     Route::get('/read/{id}', [NotifikasiController::class, 'updateIsRead']);
-    Route::get('/register', [NotifikasiController::class, 'registerDevice']);
-    Route::get('/send', [NotifikasiController::class, 'sendNotif']);
+    Route::post('/register', [NotifikasiController::class, 'registerDevice']);
+    Route::post('/send', [NotifikasiController::class, 'sendNotif']);
+});
+
+Route::middleware('auth:sanctum')->prefix('ulasan')->group(function () {
+    Route::get('/motor-avg/{id}', [UlasanController::class, 'average']);
 });
 
 Route::middleware('auth:sanctum')->prefix('pelanggan')->group(function () {

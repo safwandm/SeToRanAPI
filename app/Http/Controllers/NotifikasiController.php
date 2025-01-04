@@ -48,7 +48,7 @@ class NotifikasiController extends Controller
         $user = $request->user();
 
         DeviceToken::updateOrCreate(
-            ['id_pengguna' => $user->id],
+            ['id_pengguna' => $user->id_pengguna],
             ['device_token' => $request->device_token]
         );
 

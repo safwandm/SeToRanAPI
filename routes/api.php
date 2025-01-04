@@ -43,6 +43,7 @@ Route::middleware('auth:sanctum')->prefix('notif')->group(function () {
     Route::get('/read/{id}', [NotifikasiController::class, 'updateIsRead']);
     Route::post('/register', [NotifikasiController::class, 'registerDevice']);
     Route::post('/send', [NotifikasiController::class, 'sendNotif']);
+    Route::get('/get-all', [NotifikasiController::class, 'getForPengguna']);
 });
 
 Route::middleware('auth:sanctum')->prefix('ulasan')->group(function () {

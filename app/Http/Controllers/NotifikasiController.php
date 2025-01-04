@@ -72,4 +72,10 @@ class NotifikasiController extends Controller
 
         return response()->json(['message' => 'Notifikasi terkirim ke' . $target->nama . "."]);
     }
+
+    public function getForPengguna(Request $request)
+    {
+        $notifs = Notifikasi::where("id_pengguna", $request->user()->id_pengguna)->get();
+        return response()->json($notifs);
+    }
 }

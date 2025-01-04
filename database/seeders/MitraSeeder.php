@@ -21,12 +21,14 @@ class MitraSeeder extends Seeder
 
         // Create mitra records for all of penggunas
         foreach ($penggunaIds as $penggunaId) {
-            DB::table('mitras')->insert([
-                'id_pengguna' => $penggunaId,
-                'status' => $faker->randomElement(['active', 'inactive']),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            if ($faker->boolean(70)) {
+                DB::table('mitras')->insert([
+                    'id_pengguna' => $penggunaId, 
+                    'status' => $faker->randomElement(['active', 'inactive']),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
         }
     }
 }

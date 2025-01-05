@@ -94,12 +94,12 @@ class VoucherController extends Controller
 
     public function getActive(Request $request)
     {
-        return response()->json(Voucher::getActive()->get());
+        return response()->json(Voucher::getActive($request->user()->id_pengguna)->get());
     }
 
     public function checkVoucher(Request $request)
     {
-        $voucher = Voucher::getActive()->where('kode_voucher', $request->route("kode_voucher"))->first();
+        $voucher = Voucher::getActive($request->user()->id_pengguna)->where('kode_voucher', $request->route("kode_voucher"))->first();
 
         if (!$voucher) {
             return response()->json(["valid" => false]);

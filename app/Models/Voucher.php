@@ -19,7 +19,7 @@ class Voucher extends Model
         'kode_voucher'    
     ];
 
-    public static function getActive() 
+    public static function getActive($id_pengguna=null) 
     {
         $query = Voucher::query();
     
@@ -31,6 +31,22 @@ class Voucher extends Model
         $query->where('tanggal_mulai', '<=', $currentDate)
               ->where('tanggal_akhir', '>=', $currentDate);
     
+        if (!is_null($id_pengguna)) {
+            $query->whereNotIn('id_voucher', function ($subQuery) use ($id_pengguna) {
+                $subQuery->select('id_voucher')
+                            ->from('voucher_useds')
+                            ->where('id_pengguna', $id_pengguna);
+            });
+        }
+        
         return $query;
+    }
+
+    public function useVoucher($id_pengguna)
+    {
+        VoucherUsed::create([
+            "id_pengguna" => $id_pengguna,
+            "id_voucher" => $this->id_voucher
+        ]);
     }
 }

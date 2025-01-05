@@ -18,4 +18,19 @@ class Voucher extends Model
         'persen_voucher', 
         'kode_voucher'    
     ];
+
+    public static function getActive() 
+    {
+        $query = Voucher::query();
+    
+        $query->where('status_voucher', "aktif");
+    
+        // Default to the current date if no date is provided
+        $currentDate = $currentDate ?? now();
+    
+        $query->where('tanggal_mulai', '<=', $currentDate)
+              ->where('tanggal_akhir', '>=', $currentDate);
+    
+        return $query;
+    }
 }

@@ -29,12 +29,14 @@ Route::middleware('auth:sanctum')->get('/current-user', function (Request $reque
 
 Route::middleware('auth:sanctum')->prefix('voucher')->group(function () {
     Route::get('/filtered', [VoucherController::class, 'filtered']);
+    Route::get('/active', [VoucherController::class, 'getActive']);
     Route::get('/kode/{kode_voucher}', [VoucherController::class, 'get_code']);
+    Route::get('/check/{kode_voucher}', [VoucherController::class, 'checkVoucher']);
     Route::post('/', [VoucherController::class, 'store']);
     Route::put('/{id}', [VoucherController::class, 'update']);
 });
 
-Route::middleware('auth:sanctum')->prefix('image')->group(function () {
+Route::prefix('image')->group(function () {
     Route::post('/', [ImageController::class, 'store']);
     Route::get('/{id}', [ImageController::class, 'show']);
 });

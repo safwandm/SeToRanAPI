@@ -12,6 +12,7 @@ use App\Http\Controllers\GenericCrudController;
 use App\Http\Controllers\MotorController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\UlasanController;
+use App\Http\Controllers\PembayaranController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/register-admin', [AuthController::class, 'registerAdmin']);
@@ -71,6 +72,12 @@ Route::middleware('auth:sanctum')->prefix('transaksi')->group(function () {
     Route::get('/motor/{id}', [TransaksiController::class, 'showByMotor']);
     Route::post('/', [TransaksiController::class, 'store']);
     Route::put('/{id}', [TransaksiController::class, 'update']);
+});
+
+Route::middleware('auth:sanctum')->prefix('pembayaran')->group(function () {
+    Route::get('/', [PembayaranController::class, 'index']);
+    Route::get('/transaksi/{id}', [PembayaranController::class, 'showByTransaksi']);
+    Route::get('/{id}', [PembayaranController::class, 'show']);
 });
 
 // ->where('model', 'motors|transaksis|ulasans')

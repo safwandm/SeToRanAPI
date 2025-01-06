@@ -30,7 +30,7 @@ class TransaksiController extends Controller
     public function showByPelanggan(Request $request)
     {
         $transaksis;
-        if ($request->query('expand' == true)) {
+        if ($request->query('expand') == true) {
             $transaksis = DB::table('transaksi_motor_pelanggan_view')
                 ->where('id_pelanggan', $request->route('id'))
                 ->get();

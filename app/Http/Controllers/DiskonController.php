@@ -45,16 +45,13 @@ class DiskonController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Diskon $diskon)
+    public function update(Request $request)
     {
-        $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'status_promo' => 'required|string|in:aktif,nonaktif',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_akhir' => 'required|date|after_or_equal:tanggal_mulai',
-        ]);
-
-        $diskon->update($validated);
+        $diskon = Diskon::find($request->route('id'));
+        if (!$diskon) {
+            return response()->json(['message' => 'Diskon tidak ditemukan'], 404);
+        }
+        $diskon->update($request->all());
 
         return response()->json(['success' => 'Diskon berhasil diperbarui!']);
     }
@@ -62,10 +59,16 @@ class DiskonController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Diskon $diskon)
-    {
-        $diskon->delete();
-
-        return response()->json(['success' => 'Diskon berhasil dihapus!']);
+    public function destroy(Request $request)
+{
+    $diskon = Diskon::find($request->route('id'));
+    if (!$diskon) {
+        return response()->json(['message' => 'Diskon tidak ditemukan'], 404);
     }
+
+    $diskon->delete();
+
+    return response()->json(['success' => 'Diskon berhasil dihapus!'], 200);
+}
+
 }

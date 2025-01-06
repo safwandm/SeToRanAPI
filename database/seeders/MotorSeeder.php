@@ -191,7 +191,9 @@ class MotorSeeder extends Seeder
 
         // Create motor records
         foreach ($mitraIds as $index => $mitraId) {
-            DB::table('motors')->insert([
+            // isert image data 4x
+
+            $idMotor = DB::table('motors')->insertGetId([
                 'id_mitra' => $mitraId,
                 'plat_nomor' => $data[$index]['plat_nomor'],
                 'nomor_STNK' => $data[$index]['nomor_STNK'],

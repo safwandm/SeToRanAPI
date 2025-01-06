@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_gambar')->references('id_gambar')->on('image_data');
             $table->foreignId('id_motor')->references('id_motor')->on('motors');
-            $table->string('label')->nullable();
+            $table->string('label')->nullable(); // ["depan", "belakang", "kiri", "kanan"]
             $table->timestamps();
         });
 

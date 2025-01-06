@@ -7,6 +7,8 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\Http;
+use App\Models\ImageData;
 
 class PenggunaSeeder extends Seeder
 {
@@ -128,19 +130,27 @@ class PenggunaSeeder extends Seeder
 
         // Create 15 penggunas
         foreach ($data as $item) {
+            $username = $item["nama"];
             $tanggalLahir = $faker->dateTimeBetween('-27 years', '-17 years')->format('Y-m-d');
-            DB::table('penggunas')->insert([
-                'nama' => $item["nama"],
-                'email' => $item["email"],
-                'password' => Hash::make('password123'), //buat default biar gampang nyoba login
-                'tanggal_lahir' => $tanggalLahir,
-                'nomor_telepon' => $item["nomor_telepon"],
-                'umur' => now()->diffInYears($tanggalLahir),
-                'nomor_KTP' => $item["nomor_KTP"],
-                'alamat' => $item["alamat"],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            $response = Http::get('https://avatar.iran.liara.run/username?username=' . str_replace(' ', '+', $username));
+            if ($response->successful()) {
+                $imageData = new ImageData();
+                $imageData->data = $response->body();
+                $imageData->save();
+                DB::table('penggunas')->insert([
+                    'nama' => $item["nama"],
+                    'email' => $item["email"],
+                    'password' => Hash::make('password123'), //buat default biar gampang nyoba login
+                    'tanggal_lahir' => $tanggalLahir,
+                    'nomor_telepon' => $item["nomor_telepon"],
+                    'umur' => now()->diffInYears($tanggalLahir),
+                    'nomor_KTP' => $item["nomor_KTP"],
+                    'alamat' => $item["alamat"],
+                    'id_gambar' => $imageData->id_gambar,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
         }
     }
 }

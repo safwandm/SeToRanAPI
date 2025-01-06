@@ -18,7 +18,8 @@ class Pengguna extends Model
     protected $primaryKey = 'id_pengguna';
     protected $fillable = [
         'nama', 'email', 'password', 'tanggal_lahir',
-        'nomor_telepon', 'umur', 'nomor_KTP', 'alamat',
+        'nomor_telepon', 'umur', 'nomor_KTP', 'alamat', 
+        'id_gambar' // untuk profile image
     ];
 
     public function sendNotif($judul, $deskripsi, $navigasi, $dataNavigasi)

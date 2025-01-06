@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Motor;
+use App\Models\MotorImage;
 use App\Models\Transaksi;
 use Carbon\Carbon;
 
@@ -49,5 +50,14 @@ class MotorController extends Controller
 
         // Return the response
         return response()->json($motors->values());
+    }
+
+    public function getImages(Request $request)
+    {
+        $idMotor = $request->route("id");
+
+        $images = MotorImage::where('id_motor', $idMotor);
+
+        return response()->json($images);
     }
 }

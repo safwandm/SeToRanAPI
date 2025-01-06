@@ -14,12 +14,10 @@ class ImageController extends Controller
         // Validate the incoming request
         $request->validate([
             'image' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
-            'label' => 'required|string|max:255',
         ]);
 
         $file = $request->file('image');
-        $label = $request->input('label');
-        $id_gambar = ImageData::storeImage($file, $label);
+        $id_gambar = ImageData::storeImage($file);
 
         // Return the ID of the newly created image
         return response()->json(['id' => $id_gambar], 201);

@@ -35,9 +35,12 @@ class MotorSeeder extends Seeder
                     'transmisi' => $faker->randomElement(['Manual', 'Matic']),
                     'status_motor' => $faker->randomElement(['Tersedia', 'Disewa', 'Dipesan', 'Dalam Perbaikan', 'Tidak Tersedia']),
                     'harga_harian' => $faker->numberBetween(50000, 200000),
+                    'diskon_percentage' => $faker->numberBetween(5, 20), // Diskon antara 5% sampai 20%
+                    'diskon_amount' => $faker->numberBetween(10000, 50000), // Jumlah diskon antara 10.000 sampai 50.000
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+
             }
         }
     }

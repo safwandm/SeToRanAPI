@@ -13,6 +13,7 @@ use App\Http\Controllers\MotorController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\UlasanController;
 use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\PenggunaController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/register-admin', [AuthController::class, 'registerAdmin']);
@@ -80,6 +81,9 @@ Route::middleware('auth:sanctum')->prefix('pembayaran')->group(function () {
     Route::get('/{id}', [PembayaranController::class, 'show']);
 });
 
+Route::middleware('auth:sanctum')->prefix('pengguna')->group(function () {
+    Route::put('/{id}', [PenggunaController::class, 'update']);
+});
 // ->where('model', 'motors|transaksis|ulasans')
 
 Route::middleware('auth:sanctum')->prefix('/generic/{model}')->group(function () {

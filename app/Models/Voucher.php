@@ -49,4 +49,11 @@ class Voucher extends Model
             "id_voucher" => $this->id_voucher
         ]);
     }
+
+    public function isUsed($id_pengguna) 
+    {
+        $voucherFound = VoucherUsed::where('id_pengguna', '=',$id_pengguna)->where('id_voucher', '=', value: $this->id_voucher)->exists();
+
+        return $voucherFound;
+    }
 }

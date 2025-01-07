@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Voucher;
+use App\Models\VoucherUsed;
+use Illuminate\Support\Facades\DB;
 
 class VoucherController extends Controller
 {
@@ -106,5 +108,17 @@ class VoucherController extends Controller
         }
 
         return response()->json(["valid" => true, "voucher" => $voucher]);
+    }
+
+    public function getUsed(Request $request)
+    {
+        $used = VoucherUsed::where("id_voucher", $request->route("id"))
+            ->with("pengguna")
+            ->whereHas('pengguna.pelanggan')
+            ->with("pengguna.pelanggan")
+            ->get();
+
+
+        return response()->json($used);
     }
 }

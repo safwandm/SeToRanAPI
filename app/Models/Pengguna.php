@@ -63,4 +63,9 @@ class Pengguna extends Model
         }
 
     }
+
+    public function pelanggan()
+    {
+        return $this->hasOne(Pelanggan::class, 'id_pengguna');
+    }
 }

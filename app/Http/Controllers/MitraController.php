@@ -22,6 +22,16 @@ class MitraController extends Controller
         return response()->json($mitras);
     }
 
+    public function find($id)
+    {
+        // Mengambil semua data Mitra beserta data Pengguna yang terkait
+        $mitras = Mitra::where('id_mitra', '=', $id)->get();
+
+        // Mengembalikan response dalam bentuk JSON
+        return response()->json($mitras);
+    }
+
+
     public function mitraMotor()
     {
         // Mengambil semua data Mitra beserta data Pengguna dan motors

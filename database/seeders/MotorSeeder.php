@@ -19,6 +19,31 @@ class MotorSeeder extends Seeder
         // Get all mitra IDs
         $mitraIds = DB::table('mitras')->pluck('id_mitra');
 
+
+        // Create motor records for some of the mitras
+        foreach ($mitraIds as $mitraId) {
+            // Randomly skip some mitras (70% chance to create a motor)
+            if ($faker->boolean(70)) {
+                DB::table('motors')->insert([
+                    'id_mitra' => $mitraId,
+                    'plat_nomor' => $faker->numerify('##-###-##'), // 8 digit nomor polisi
+                    'nomor_STNK' => $faker->numerify('##########'), // 10 digit STNK
+                    'nomor_BPKB' => $faker->numerify('##########'), // 10 digit BPKB
+                    'model' => $faker->randomElement(['Vario', 'Beat', 'Scoopy', 'Supra X']),
+                    'brand' => $faker->randomElement(['Honda', 'Yamaha', 'Suzuki', 'Kawasaki']),
+                    'tipe' => $faker->randomElement(['Scooter', 'Sport', 'Bebek']),
+                    'tahun' => $faker->numberBetween(2010, 2021),
+                    'transmisi' => $faker->randomElement(['Manual', 'Matic']),
+                    'status_motor' => $faker->randomElement(['Tersedia', 'Disewa', 'Dipesan', 'Dalam Perbaikan', 'Tidak Tersedia']),
+                    'harga_harian' => $faker->numberBetween(50000, 200000),
+                    'diskon_percentage' => $faker->numberBetween(5, 20), // Diskon antara 5% sampai 20%
+                    'diskon_amount' => $faker->numberBetween(10000, 50000), // Jumlah diskon antara 10.000 sampai 50.000
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+
+            }
+
         $possiblePrices = range(50000, 100000, 5000);
 
         $data = [

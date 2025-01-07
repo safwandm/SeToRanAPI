@@ -1,122 +1,74 @@
 <?php
-namespace App\Controllers;
 
-use App\Models\DiskonModel;
-use CodeIgniter\RESTful\ResourceController;
+namespace App\Http\Controllers;
 
-class DiskonController extends ResourceController
+use App\Models\Diskon;
+use Illuminate\Http\Request;
+
+class DiskonController extends Controller
 {
-    protected $diskonModel;
-    protected $format = 'json';
-
-    public function __construct()
-    {
-        $this->diskonModel = new DiskonModel();
-    }
-
-    // GET /api/diskon
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $status = $this->request->getGet('status');
-        $data = $this->diskonModel->getDiskon($status);
-        
-        return $this->respond([
-            'status' => 200,
-            'data' => $data
+        $diskons = Diskon::all();
+        return response()->json(['data' => $diskons], 200);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'status_promo' => 'required|string|in:aktif,nonaktif',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_akhir' => 'required|date|after_or_equal:tanggal_mulai',
         ]);
+
+        Diskon::create($validated);
+
+        return response()->json(['success' => 'Diskon berhasil ditambahkan!']);
     }
 
-    // GET /api/diskon/{id}
-    public function show($id = null)
+    /**
+     * Display the specified resource.
+     */
+    public function show($id)
     {
-        $data = $this->diskonModel->getDiskonById($id);
-        
-        if ($data) {
-            return $this->respond([
-                'status' => 200,
-                'data' => $data
-            ]);
+        $diskon = Diskon::find($id);
+        if (!$diskon) {
+            return response()->json(['message' => 'Diskon not found'], 404);
         }
-        
-        return $this->failNotFound('Diskon tidak ditemukan');
+        return response()->json(['data' => $diskon], 200);
     }
 
-    // POST /api/diskon
-    public function create()
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request)
     {
-        $rules = [
-            'id' => 'required|min_length[6]|is_unique[diskon.id]',
-            'nama_promo' => 'required',
-            'status_promo' => 'required|in_list[Aktif,Non Aktif]',
-            'tgl_mulai' => 'required|valid_date',
-            'tgl_akhir' => 'required|valid_date'
-        ];
-
-        if (!$this->validate($rules)) {
-            return $this->failValidationErrors($this->validator->getErrors());
+        $diskon = Diskon::find($request->route('id'));
+        if (!$diskon) {
+            return response()->json(['message' => 'Diskon tidak ditemukan'], 404);
         }
+        $diskon->update($request->all());
 
-        $data = [
-            'id' => $this->request->getPost('id'),
-            'nama_promo' => $this->request->getPost('nama_promo'),
-            'status_promo' => $this->request->getPost('status_promo'),
-            'tgl_mulai' => $this->request->getPost('tgl_mulai'),
-            'tgl_akhir' => $this->request->getPost('tgl_akhir')
-        ];
-
-        if ($this->diskonModel->addDiskon($data)) {
-            return $this->respondCreated([
-                'status' => 201,
-                'message' => 'Diskon berhasil ditambahkan',
-                'data' => $data
-            ]);
-        }
-
-        return $this->fail('Gagal menambahkan diskon');
+        return response()->json(['success' => 'Diskon berhasil diperbarui!']);
     }
 
-    // PUT /api/diskon/{id}
-    public function update($id = null)
-    {
-        $rules = [
-            'nama_promo' => 'required',
-            'status_promo' => 'required|in_list[Aktif,Non Aktif]',
-            'tgl_mulai' => 'required|valid_date',
-            'tgl_akhir' => 'required|valid_date'
-        ];
-
-        if (!$this->validate($rules)) {
-            return $this->failValidationErrors($this->validator->getErrors());
-        }
-
-        $data = [
-            'nama_promo' => $this->request->getRawInput()['nama_promo'],
-            'status_promo' => $this->request->getRawInput()['status_promo'],
-            'tgl_mulai' => $this->request->getRawInput()['tgl_mulai'],
-            'tgl_akhir' => $this->request->getRawInput()['tgl_akhir']
-        ];
-
-        if ($this->diskonModel->updateDiskon($id, $data)) {
-            return $this->respond([
-                'status' => 200,
-                'message' => 'Diskon berhasil diupdate',
-                'data' => $data
-            ]);
-        }
-
-        return $this->fail('Gagal mengupdate diskon');
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Request $request)
+{
+    $diskon = Diskon::find($request->route('id'));
+    if (!$diskon) {
+        return response()->json(['message' => 'Diskon tidak ditemukan'], 404);
     }
 
-    // DELETE /api/diskon/{id}
-    public function delete($id = null)
-    {
-        if ($this->diskonModel->deleteDiskon($id)) {
-            return $this->respondDeleted([
-                'status' => 200,
-                'message' => 'Diskon berhasil dihapus'
-            ]);
-        }
+    $diskon->delete();
 
-        return $this->fail('Gagal menghapus diskon');
-    }
+    return response()->json(['success' => 'Diskon berhasil dihapus!'], 200);
+}
+
 }

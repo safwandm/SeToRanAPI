@@ -9,6 +9,7 @@ use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\GenericCrudController;
+use App\Http\Controllers\DiskonController;
 use App\Http\Controllers\MotorController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\UlasanController;
@@ -76,6 +77,15 @@ Route::middleware('auth:sanctum')->prefix('transaksi')->group(function () {
     Route::put('/{id}', [TransaksiController::class, 'update']);
 });
 
+
+Route::middleware('auth:sanctum')->prefix('diskon')->group(function () {
+    Route::get('/', [DiskonController::class, 'index']);
+    Route::get('/{id}', [DiskonController::class, 'show']);
+    Route::post('/', [DiskonController::class, 'store']);
+    Route::put('/{id}', [DiskonController::class, 'update']);
+    Route::delete('/{id}', [DiskonController::class, 'destroy']);
+ });   
+
 Route::middleware('auth:sanctum')->prefix('pembayaran')->group(function () {
     Route::get('/', [PembayaranController::class, 'index']);
     Route::get('/transaksi/{id}', [PembayaranController::class, 'showByTransaksi']);
@@ -94,3 +104,4 @@ Route::middleware('auth:sanctum')->prefix('/generic/{model}')->group(function ()
     Route::put('/{id}', [GenericCrudController::class, 'update']);
     Route::delete('/{id}', [GenericCrudController::class, 'destroy']);
 });
+

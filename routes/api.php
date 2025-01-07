@@ -10,7 +10,11 @@ use App\Http\Controllers\MitraController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\GenericCrudController;
 use App\Http\Controllers\DiskonController;
-
+use App\Http\Controllers\MotorController;
+use App\Http\Controllers\NotifikasiController;
+use App\Http\Controllers\UlasanController;
+use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\PenggunaController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/register-admin', [AuthController::class, 'registerAdmin']);
@@ -20,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/protected', function () {
 });
 
 Route::get('/mitras', [MitraController::class, 'index']);
+Route::get('/mitras-motor', [MitraController::class, 'mitraMotor']);
 
 Route::middleware('auth:sanctum')->get('/current-user', function (Request $request) {
     return response()->json(['user' => $request->user()], 200);
@@ -27,20 +32,38 @@ Route::middleware('auth:sanctum')->get('/current-user', function (Request $reque
 
 Route::middleware('auth:sanctum')->prefix('voucher')->group(function () {
     Route::get('/filtered', [VoucherController::class, 'filtered']);
+    Route::get('/active', [VoucherController::class, 'getActive']);
     Route::get('/kode/{kode_voucher}', [VoucherController::class, 'get_code']);
+    Route::get('/check/{kode_voucher}', [VoucherController::class, 'checkVoucher']);
     Route::post('/', [VoucherController::class, 'store']);
     Route::put('/{id}', [VoucherController::class, 'update']);
+    Route::get('/used/{id}', [VoucherController::class, 'getUsed']);
 });
 
-Route::middleware('auth:sanctum')->prefix('image')->group(function () {
+Route::prefix('image')->group(function () {
     Route::post('/', [ImageController::class, 'store']);
     Route::get('/{id}', [ImageController::class, 'show']);
+});
+
+Route::middleware('auth:sanctum')->prefix('notif')->group(function () {
+    Route::get('/read/{id}', [NotifikasiController::class, 'updateIsRead']);
+    Route::post('/register', [NotifikasiController::class, 'registerDevice']);
+    Route::post('/send', [NotifikasiController::class, 'sendNotif']);
+    Route::get('/get-all', [NotifikasiController::class, 'getForPengguna']);
+});
+
+Route::middleware('auth:sanctum')->prefix('ulasan')->group(function () {
+    Route::get('/motor-avg/{id}', [UlasanController::class, 'average']);
 });
 
 Route::middleware('auth:sanctum')->prefix('pelanggan')->group(function () {
     Route::get('/', [PelangganController::class, 'index']);
     Route::get('/{id}', [PelangganController::class, 'show']);
     Route::delete('/{id}', [PelangganController::class, 'destroy']); //idpelanggan
+});
+
+Route::middleware('auth:sanctum')->prefix('motor')->group(function () {
+    Route::post('/filtered', [MotorController::class, 'filtered']);
 });
 
 Route::middleware('auth:sanctum')->prefix('transaksi')->group(function () {
@@ -54,13 +77,23 @@ Route::middleware('auth:sanctum')->prefix('transaksi')->group(function () {
     Route::put('/{id}', [TransaksiController::class, 'update']);
 });
 
+
 Route::middleware('auth:sanctum')->prefix('diskon')->group(function () {
     Route::get('/', [DiskonController::class, 'index']);
     Route::get('/{id}', [DiskonController::class, 'show']);
     Route::post('/', [DiskonController::class, 'store']);
     Route::put('/{id}', [DiskonController::class, 'update']);
     Route::delete('/{id}', [DiskonController::class, 'destroy']);
-    
+ });   
+
+Route::middleware('auth:sanctum')->prefix('pembayaran')->group(function () {
+    Route::get('/', [PembayaranController::class, 'index']);
+    Route::get('/transaksi/{id}', [PembayaranController::class, 'showByTransaksi']);
+    Route::get('/{id}', [PembayaranController::class, 'show']);
+});
+
+Route::middleware('auth:sanctum')->prefix('pengguna')->group(function () {
+    Route::put('/{id}', [PenggunaController::class, 'update']);
 });
 // ->where('model', 'motors|transaksis|ulasans')
 

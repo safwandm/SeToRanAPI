@@ -23,4 +23,9 @@ class Ulasan extends Model
     {
         return $this->belongsTo(Pelanggan::class, 'id_pelanggan');
     }
+
+    public static function getAvgRating($idMotor)
+    {
+        return Ulasan::where('id_motor', $idMotor)->avg('rating');
+    }
 }

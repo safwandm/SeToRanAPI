@@ -13,12 +13,11 @@ class ImageData extends Model
 
     protected $primaryKey = 'id_gambar';
     protected $fillable = [
-        'data',
-        'label'
+        'data', 
     ];
 
     // kali aja mau dipake di bagian lain
-    static function storeImage($file, $label) {
+    static function storeImage($file) {
 
         // Convert the image to binary data
         $binaryData = file_get_contents($file->getRealPath());
@@ -26,7 +25,6 @@ class ImageData extends Model
         // Create a new ImageData instance
         $imageData = new ImageData();
         $imageData->data = $binaryData;
-        $imageData->label = $label;
 
         // Save the image data to the database
         $imageData->save();

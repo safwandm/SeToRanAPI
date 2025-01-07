@@ -48,7 +48,7 @@ return new class extends Migration
             $table->string('tipe');
             $table->integer('tahun');
             $table->string('transmisi');
-            $table->string('status_motor');
+            $table->string('status_motor'); // ['Tersedia', 'Disewa', 'Dipesan', 'Dalam Perbaikan', 'Tidak Tersedia']
             $table->decimal('harga_harian', 10, 2);
             $table->timestamps();
         });
@@ -78,10 +78,10 @@ return new class extends Migration
         Schema::create('pembayarans', function (Blueprint $table) {
             $table->id('id_pembayaran');
             $table->foreignId('id_transaksi')->references('id_transaksi')->on('transaksis');
-            $table->string('metode');
+            $table->string('metode'); // ["transfer", "tunai"]
             $table->decimal('nominal', 10, 2);
-            $table->string('status_pembayaran'); // ["dibuat", "berlangsung", "batal", "selesai"]
-            $table->timestamp('tanggal_bayar');
+            $table->string('status_pembayaran'); // ["belum lunas","batal", "lunas"]
+            $table->timestamp('tanggal_bayar')->nullable();
             $table->timestamps();
         });
 

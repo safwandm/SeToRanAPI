@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Voucher;
+use App\Models\VoucherUsed;
+use Illuminate\Support\Facades\DB;
 
 class VoucherController extends Controller
 {
@@ -90,5 +92,33 @@ class VoucherController extends Controller
             return response()->json(['error' => 'Voucher not found.'], 404);
         }
         return response()->json($voucher);
+    }
+
+    public function getActive(Request $request)
+    {
+        return response()->json(Voucher::getActive($request->user()->id_pengguna)->get());
+    }
+
+    public function checkVoucher(Request $request)
+    {
+        $voucher = Voucher::getActive($request->user()->id_pengguna)->where('kode_voucher', $request->route("kode_voucher"))->first();
+
+        if (!$voucher) {
+            return response()->json(["valid" => false]);
+        }
+
+        return response()->json(["valid" => true, "voucher" => $voucher]);
+    }
+
+    public function getUsed(Request $request)
+    {
+        $used = VoucherUsed::where("id_voucher", $request->route("id"))
+            ->with("pengguna")
+            ->whereHas('pengguna.pelanggan')
+            ->with("pengguna.pelanggan")
+            ->get();
+
+
+        return response()->json($used);
     }
 }

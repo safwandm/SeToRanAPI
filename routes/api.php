@@ -60,6 +60,7 @@ Route::middleware('auth:sanctum')->prefix('pelanggan')->group(function () {
     Route::get('/', [PelangganController::class, 'index']);
     Route::get('/{id}', [PelangganController::class, 'show']);
     Route::delete('/{id}', [PelangganController::class, 'destroy']); //idpelanggan
+    Route::put('/{id}', [PelangganController::class, 'update']);
 });
 
 Route::middleware('auth:sanctum')->prefix('motor')->group(function () {

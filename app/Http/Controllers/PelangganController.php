@@ -38,4 +38,13 @@ class PelangganController extends Controller
         $pelanggan->delete();
         return response()->json(['message' => 'Record deleted.']);
     }
+
+    public function update(Request $request) {
+        $pelanggan = Pelanggan::find($request->route('id'));
+        if (!$pelanggan) {
+            return response()->json(['error' => 'Record not found.'], 404);
+        }
+        $pelanggan->update($request->all());
+        return response()->json($pelanggan);
+    }
 }

@@ -82,6 +82,7 @@ Route::middleware('auth:sanctum')->prefix('pembayaran')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->prefix('pengguna')->group(function () {
+    Route::get('/{id}', [PenggunaController::class, 'show']);
     Route::put('/{id}', [PenggunaController::class, 'update']);
 });
 // ->where('model', 'motors|transaksis|ulasans')

@@ -15,4 +15,12 @@ class PenggunaController extends Controller
         $pengguna->update($request->all());
         return response()->json($pengguna);
     }
+
+    public function show($id) {
+        $pengguna = Pengguna::find($id);
+        if (!$pengguna) {
+            return response()->json(['error' => 'Record not found.'], 404);
+        }
+        return response()->json($pengguna);
+    }
 }

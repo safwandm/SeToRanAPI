@@ -10,4 +10,9 @@ class VoucherUsed extends Model
         'id_voucher', 
         'id_pengguna'  
     ];
+
+    public function pengguna()
+    {
+        return $this->belongsTo(Pengguna::class, 'id_pengguna');
+    }
 }

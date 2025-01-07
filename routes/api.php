@@ -36,6 +36,7 @@ Route::middleware('auth:sanctum')->prefix('voucher')->group(function () {
     Route::get('/check/{kode_voucher}', [VoucherController::class, 'checkVoucher']);
     Route::post('/', [VoucherController::class, 'store']);
     Route::put('/{id}', [VoucherController::class, 'update']);
+    Route::get('/used/{id}', [VoucherController::class, 'getUsed']);
 });
 
 Route::prefix('image')->group(function () {

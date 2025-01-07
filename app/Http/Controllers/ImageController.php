@@ -29,6 +29,9 @@ class ImageController extends Controller
         $imageData = ImageData::findOrFail($request->route("id"));
 
         // Return the image binary data with appropriate headers
-        return response($imageData->data, 200)->header('Content-Type', 'image/jpeg');
+        // return response($imageData->data, 200)->header('Content-Type', 'image/jpeg');
+        return response()->stream(function () use ($imageData) {
+            echo $imageData->data;
+        }, 200, ['Content-Type' => 'image/jpeg']);
     }
 }

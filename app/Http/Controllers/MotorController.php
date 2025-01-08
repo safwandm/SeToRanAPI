@@ -7,6 +7,7 @@ use App\Models\Motor;
 use App\Models\MotorImage;
 use App\Models\Transaksi;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class MotorController extends Controller
 {
@@ -59,5 +60,13 @@ class MotorController extends Controller
         $images = MotorImage::where('id_motor', $idMotor);
 
         return response()->json($images);
+    }
+
+    public function showByMitra(Request $request)
+    {
+        $motors = DB::table('motors')
+            ->where('id_mitra', $request->route('id'))
+            ->get();
+        return response()->json($motors);
     }
 }

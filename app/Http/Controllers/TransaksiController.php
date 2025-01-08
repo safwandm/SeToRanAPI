@@ -44,7 +44,11 @@ class TransaksiController extends Controller
 
     public function showByMitra($id)
     {
+        $transaksi = DB::table('transaksi_motor_pelanggan_view')
+            ->where('id_mitra', $request->route('id'))
+            ->get();
 
+        return response()->json($transaksi);
     }
 
     public function showByMotor($id)

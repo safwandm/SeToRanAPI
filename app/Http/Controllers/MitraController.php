@@ -49,4 +49,13 @@ class MitraController extends Controller
         // Mengembalikan response dalam bentuk JSON dengan tambahan jumlah motor
         return response()->json($mitrasWithMotorCount);
     }
+
+    public function showByIdPengguna($id)
+    {
+        $mitra = Mitra::find($id);
+        if (!$mitra) {
+            return response()->json(['message' => 'Nitra not found'], 404);
+        }
+        return response()->json($mitra);
+    }
 }

@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/protected', function () {
 
 Route::get('/mitras', [MitraController::class, 'index']);
 Route::get('/mitras-motor', [MitraController::class, 'mitraMotor']);
+Route::get('/mitras/pengguna/{id}', [MitraController::class, 'showByIdPengguna']);
 
 Route::middleware('auth:sanctum')->get('/current-user', function (Request $request) {
     return response()->json(['user' => $request->user()], 200);
@@ -65,6 +66,7 @@ Route::middleware('auth:sanctum')->prefix('pelanggan')->group(function () {
 
 Route::middleware('auth:sanctum')->prefix('motor')->group(function () {
     Route::post('/filtered', [MotorController::class, 'filtered']);
+    Route::get('/mitra/{id}', [MotorController::class, 'showByMitra']);
 });
 
 Route::middleware('auth:sanctum')->prefix('transaksi')->group(function () {

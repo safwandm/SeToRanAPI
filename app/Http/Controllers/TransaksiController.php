@@ -97,6 +97,8 @@ class TransaksiController extends Controller
 
         $nominal = $motor->harga_harian * $durasi;
 
+        $voucher = null;
+
         if ($request->id_voucher) {
             $voucher = Voucher::find($request->id_voucher);
             if ($voucher) {
